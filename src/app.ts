@@ -8,8 +8,8 @@ export function createApp() {
 
     app.use(express.json());
 
-    app.use("/rooms", roomRouter);
-    app.use("/reservations", reservationRouter);
+    app.use("/api/rooms", roomRouter);
+    app.use("/api/reservations", reservationRouter);
 
     app.use(errorMiddleware);
 
