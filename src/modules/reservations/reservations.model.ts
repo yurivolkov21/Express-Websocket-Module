@@ -1,5 +1,6 @@
+import { ObjectId } from "mongodb";
+
 export type ReservationDoc = {
-    id: string;
     roomId: string;
     title: string;
     start: Date;
@@ -7,4 +8,6 @@ export type ReservationDoc = {
     createdBy: string;
     createdAt: Date;
     updatedAt: Date;
-}
+};
+
+export type ReservationEntity = ReservationDoc & { _id: ObjectId };

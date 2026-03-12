@@ -25,11 +25,4 @@ export const env = {
     mongoUri: required("MONGODB_URI"),
     mongoDb: required("MONGODB_DB"),
 
-    jwtAccessSecret: required("JWT_ACCESS_SECRET"),
-    jwtRefreshSecret: required("JWT_REFRESH_SECRET"),
-
-    accessTokenTtlSeconds: numberEnv("ACCESS_TOKEN_TTL_SECONDS", 3600),
-    refreshTokenTtlSeconds: numberEnv("REFRESH_TOKEN_TTL_SECONDS", 2592000),
-
-    refreshCookieName: process.env.REFRESH_COOKIE_NAME ?? "refreshToken",
 } as const;
