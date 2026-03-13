@@ -16,6 +16,17 @@ export class ReservationService {
         return d;
     }
 
+    private validateReservationWindow(start: Date, end: Date): void {
+        if (end <= start) {
+            throw new ApiError(400, { message: "end must be after start" });
+        }
+
+        const now = new Date();
+        if (start <= now) {
+            throw new ApiError(400, { message: "start must be in the future" });
+        }
+    }
+
     async list(query: { roomId?: string; from?: string; to?: string }): Promise<ReservationEntity[]> {
         const filter: { roomId?: string; from?: Date; to?: Date } = {};
         if (query.roomId) filter.roomId = query.roomId;
@@ -53,7 +64,7 @@ export class ReservationService {
 
         const start = this.parseIsoDate(b["start"], "start");
         const end = this.parseIsoDate(b["end"], "end");
-        if (end <= start) throw new ApiError(400, { message: "end must be after start" });
+        this.validateReservationWindow(start, end);
 
         const now = new Date();
         return this.reservationDb.create({
@@ -97,7 +108,7 @@ export class ReservationService {
 
         const resolvedStart = set.start ?? existing.start;
         const resolvedEnd = set.end ?? existing.end;
-        if (resolvedEnd <= resolvedStart) throw new ApiError(400, { message: "end must be after start" });
+        this.validateReservationWindow(resolvedStart, resolvedEnd);
 
         const resolvedRoomId = set.roomId ?? existing.roomId;
         set.updatedAt = new Date();
